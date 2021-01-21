@@ -8,9 +8,13 @@ var products = require("../models/products");
 /* POST recieve cart. */
 router.post("/", async function (req, res, next) {
   let totalPrice = await getSQL(req.body.cart);
-  if (totalPrice < 0) {
+  if (totalPrice === -1) {
     res.status(400).send({
-      message: "something failed please try again",
+      message: "Something failed please try again",
+    });
+  } else if (totalPrice === -2) {
+    res.status(400).send({
+      message: "Please select a article",
     });
   } else {
     res.send("" + totalPrice);
@@ -19,6 +23,9 @@ router.post("/", async function (req, res, next) {
 
 async function getSQL(cart) {
   let cost = 0;
+  if (cart.length <= 0) {
+    return -2;
+  }
   for (const item of cart) {
     await products
       .findAll({
@@ -29,10 +36,9 @@ async function getSQL(cart) {
         },
       })
       .then((article) => {
-        if (item.count <= 0 || cost < 0 || !article.isEmpty) {
+        if (item.count <= 0 || cost < 0) {
           cost = -1;
         } else {
-          console.log(article);
           cost += article.pop().price * item.count;
         }
       })
