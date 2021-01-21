@@ -2,8 +2,7 @@ var express = require("express");
 var router = express.Router();
 
 // database
-const db = require("../config/database");
-var products = require("../models/products");
+var products = require("../controllers/index").products;
 
 /* POST recieve cart. */
 router.post("/", async function (req, res, next) {

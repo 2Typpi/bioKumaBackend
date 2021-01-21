@@ -3,10 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-var mysql = require("mysql");
-
-// database
-const db = require("./config/database");
+var jwt = require("./helper/jwt")
 
 // route mapping
 var indexRouter = require("./routes/index");
@@ -16,19 +13,12 @@ var cartRouter = require("./routes/cart");
 
 var app = express();
 
-// test db connection
-db.authenticate()
-  .then(() => console.log("database connected..."))
-  .catch((err) => {
-    console.log(err);
-    process.exit(1);
-  });
-
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 app.use(logger("dev"));
+app.use(jwt());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
