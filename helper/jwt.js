@@ -13,6 +13,8 @@ function jwt() {
       // public routes that don't require authentication
       "/users/authenticate",
       "/users/register",
+      "/cart",
+      "/order",
       // Diese Zeile bewirkt das alle Routen keinen token brauchen
       { url: /\/*/, methods: ["GET", "OPTIONS"] },
       // Alle GET und OPTIONS HTTP Request mit dem muster /api/texts/* brauchen keine Authorisierung

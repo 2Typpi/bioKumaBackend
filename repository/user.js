@@ -46,10 +46,18 @@ async function getById(id) {
  * Needs:
  * username: string
  * password: string
- * roles: string[] (id's)
  */
 async function create(userParam) {
-  if (!validator.isAscii(userParam.username) || !validator.isAscii(userParam.password)) {
+  if (
+    !validator.isAscii(userParam.username) ||
+    !validator.isAscii(userParam.password) ||
+    !validator.isAscii(userParam.firstName) ||
+    !validator.isAscii(userParam.lastName) ||
+    !validator.isAscii(userParam.street) ||
+    !validator.isAscii(userParam.houseNumber) ||
+    !validator.isAscii(userParam.city) ||
+    !validator.isAscii(userParam.PLZ)
+  ) {
     return null;
   }
   // validate
@@ -66,16 +74,6 @@ async function create(userParam) {
 
   // save user
   await user.create(userToCreate);
-
-  // add roles
-  /*   for (let i = 0; i < userParam.roles.length; i++) {
-    let userRoleToCreate = {
-      id: uuidv4(),
-      userId: userToCreate.id,
-      roleId: userParam.roles[i],
-    };
-    await userRole.create(userRoleToCreate);
-  } */
 }
 
 async function getAll() {
