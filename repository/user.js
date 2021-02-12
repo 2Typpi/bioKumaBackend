@@ -13,6 +13,25 @@ module.exports = {
   delete: _delete,
 };
 
+const umlautMap = {
+  "\u00dc": "UE",
+  "\u00c4": "AE",
+  "\u00d6": "OE",
+  "\u00fc": "ue",
+  "\u00e4": "ae",
+  "\u00f6": "oe",
+  "\u00df": "ss",
+};
+
+function replaceUmlaute(str) {
+  return str
+    .replace(/[\u00dc|\u00c4|\u00d6][a-z]/g, (a) => {
+      const big = umlautMap[a.slice(0, 1)];
+      return big.charAt(0) + big.charAt(1).toLowerCase() + a.slice(1);
+    })
+    .replace(new RegExp("[" + Object.keys(umlautMap).join("|") + "]", "g"), (a) => umlautMap[a]);
+}
+
 async function authenticate({ username, password }) {
   if (!validator.isAscii(username) || !validator.isAscii(password)) {
     return null;
@@ -48,6 +67,16 @@ async function getById(id) {
  * password: string
  */
 async function create(userParam) {
+  console.log(userParam);
+  userParam.username = replaceUmlaute(userParam.username);
+  userParam.password = replaceUmlaute(userParam.password);
+  userParam.firstName = replaceUmlaute(userParam.firstName);
+  userParam.lastName = replaceUmlaute(userParam.lastName);
+  userParam.street = replaceUmlaute(userParam.street);
+  userParam.houseNumber = replaceUmlaute(userParam.houseNumber);
+  userParam.city = replaceUmlaute(userParam.city);
+  userParam.PLZ = replaceUmlaute(userParam.PLZ);
+
   if (
     !validator.isAscii(userParam.username) ||
     !validator.isAscii(userParam.password) ||
@@ -69,11 +98,14 @@ async function create(userParam) {
   // hash password
   if (userToCreate.password) {
     userToCreate.hash = bcrypt.hashSync(userParam.password, 10);
+    console.log(userToCreate);
   }
   userToCreate.id = uuidv4();
+  console.log(userToCreate);
 
   // save user
-  await user.create(userToCreate);
+  let x = await user.create(userToCreate);
+  console.log(x);
 }
 
 async function getAll() {

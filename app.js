@@ -3,8 +3,8 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-var cors = require("cors");
-var jwt = require("./helper/jwt");
+const cors = require("cors");
+const jwt = require("./helper/jwt");
 
 // route mapping
 var usersRouter = require("./routes/users");
