@@ -14,5 +14,5 @@ products Table:
   > 6 = Backwaren
   > 7 = Sonstiges
 - priceValue:
-  > 0 = Stueckpreis
-  > 1 = Kilopreis
+  > 0 = Kilopreis
+  > 1 = Stueckpreis
