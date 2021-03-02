@@ -2,6 +2,9 @@ var express = require("express");
 var router = express.Router();
 const userService = require("../repository/user");
 
+//AccessControl
+const roles = require("../helper/roles");
+
 // routes
 router.post("/authenticate", authenticate);
 // This is uncomment because we don't want to register new repository

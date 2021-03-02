@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       houseNumber: { type: DataTypes.STRING, allowNull: false },
       PLZ: { type: DataTypes.STRING, allowNull: false },
       city: { type: DataTypes.STRING, allowNull: false },
+      role: { type: DataTypes.ENUM("basic", "supervisor", "admin"), defaultValue: "basic" },
     },
     {}
   );
