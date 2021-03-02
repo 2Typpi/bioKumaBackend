@@ -12,19 +12,13 @@ router.post("/all", accessController.grantAccess("readAny", "order"), fetchAllOr
 
 /* GET List of articles. */
 async function fetchUsersOrder(req, res, next) {
-  let response = await getOrder(req.body);
-  console.log(response);
-  res.json(response);
-}
-
-async function getOrder(user) {
   let fullOrder = [];
   await ordersModel
     .findAll({
       attributes: ["id", "datetime"],
       raw: true,
       where: {
-        userId: user.id,
+        userId: req.body.id,
       },
     })
     .then(async (orderList) => {
@@ -38,7 +32,7 @@ async function getOrder(user) {
       }
     })
     .catch((err) => console.log(err));
-  return fullOrder;
+  res.json(fullOrder);
 }
 
 async function getProductsOfOrder(singleOrder) {
