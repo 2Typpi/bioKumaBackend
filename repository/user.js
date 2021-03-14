@@ -67,7 +67,6 @@ async function getById(id) {
  * password: string
  */
 async function create(userParam) {
-  console.log(userParam);
   userParam.username = replaceUmlaute(userParam.username);
   userParam.password = replaceUmlaute(userParam.password);
   userParam.firstName = replaceUmlaute(userParam.firstName);
@@ -98,14 +97,11 @@ async function create(userParam) {
   // hash password
   if (userToCreate.password) {
     userToCreate.hash = bcrypt.hashSync(userParam.password, 10);
-    console.log(userToCreate);
   }
   userToCreate.id = uuidv4();
-  console.log(userToCreate);
 
   // save user
-  let x = await user.create(userToCreate);
-  console.log(x);
+  await user.create(userToCreate);
 }
 
 async function getAll() {
