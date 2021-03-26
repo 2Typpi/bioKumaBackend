@@ -1,9 +1,12 @@
+const { v4: uuidv4 } = require("uuid");
+
 // database
 var products = require("../controllers/index").products;
 
 module.exports = {
   create,
   getAll,
+  image,
   delete: _delete,
 };
 
@@ -28,30 +31,33 @@ function replaceUmlaute(str) {
 
 async function getAll() {
   return await products.findAll({
-    attributes: ["id", "name", "priceValue", "category", "description", "price", "imgSrc"],
+    attributes: ["id", "name", "priceValue", "category", "price", "imgSrc"],
   });
 }
 
 async function create(newProduct) {
   if (
     !newProduct.name ||
-    !newProduct.priceValue ||
-    !newProduct.category ||
-    !newProduct.price ||
+    newProduct.priceValue === undefined ||
+    newProduct.category === undefined ||
+    newProduct.price === undefined ||
     !newProduct.imgSrc
   ) {
     return null;
   }
 
   newProduct.name = replaceUmlaute(newProduct.name);
-  newProduct.imgSrc = replaceUmlaute(newProduct.imgSrc);
+  newProduct.imgSrc = "TODO";
 
   if (await products.findOne({ where: { name: newProduct.name } })) {
     throw 'Produkt "' + newProduct.name + '" existiert bereits.';
   }
 
+  newProduct.id = uuidv4();
+  console.log(await products.findOne({ where: { name: newProduct.name } }));
+
   // save user
-  await user.create(newProduct);
+  await products.create(newProduct);
 }
 
 async function _delete(id) {
@@ -59,4 +65,12 @@ async function _delete(id) {
     return null;
   }
   await products.destroy({ where: { id: id } });
+}
+
+async function image(filename) {
+  let article = await products.findOne({ where: { imgSrc: "TODO" } });
+  if (article) {
+    article.imgSrc = filename;
+    await article.save();
+  }
 }
