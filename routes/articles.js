@@ -3,6 +3,9 @@ var router = express.Router();
 const multer = require("multer");
 const path = require("path");
 
+// Check Authority
+const accessController = require("../helper/accessController");
+
 //Repository
 const productService = require("../repository/article");
 
@@ -28,12 +31,16 @@ router.get("/", function (req, res, next) {
 });
 
 /* POST Create a new product. */
-router.post("/create", function (req, res, next) {
-  productService
-    .create(req.body)
-    .then(() => res.json({}))
-    .catch((err) => next(err));
-});
+router.post(
+  "/create",
+  accessController.grantAccess("createAny", "article"),
+  function (req, res, next) {
+    productService
+      .create(req.body.data)
+      .then(() => res.json({}))
+      .catch((err) => next(err));
+  }
+);
 
 /* POST Delete a product. */
 router.post("/delete", function (req, res, next) {
@@ -44,11 +51,16 @@ router.post("/delete", function (req, res, next) {
 });
 
 /* POST Delete a product. */
-router.post("/create/image", imgUpload.single("productImage"), function (req, res, next) {
-  productService
-    .image(req.file.filename)
-    .then(() => res.json({}))
-    .catch((err) => next(err));
-});
+router.post(
+  "/create/image",
+  accessController.grantAccess("createAny", "article"),
+  imgUpload.single("productImage"),
+  function (req, res, next) {
+    productService
+      .image(req.file.filename)
+      .then(() => res.json({}))
+      .catch((err) => next(err));
+  }
+);
 
 module.exports = router;

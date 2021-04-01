@@ -15,7 +15,6 @@ function jwt() {
       "/users/register",
       // Diese Zeile bewirkt das alle Routen keinen token brauchen
       { url: /\/*/, methods: ["GET", "OPTIONS"] },
-      // Alle GET und OPTIONS HTTP Request mit dem muster /api/texts/* brauchen keine Authorisierung
       "/",
     ],
     ext: ["png", "jpg", "css", "js", "woff2", "woff", "ico", "ttf", "html", "map"],

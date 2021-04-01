@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 
+// Check Authority
 const accessController = require("../helper/accessController");
 
 // database
