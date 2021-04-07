@@ -42,7 +42,7 @@ async function authenticate({ username, password }) {
     // Filter unnecessary properties
     const { hash, createdAt, createdDate, updatedAt, ...userWithoutHash } = userToCompare.toJSON();
 
-    const token = jwt.sign({ sub: userToCompare.id }, config.secret);
+    const token = jwt.sign({ sub: userToCompare.id, role: userToCompare.role }, config.secret);
     return {
       ...userWithoutHash,
       token,

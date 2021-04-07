@@ -1,7 +1,7 @@
 {
   "secret": "mysecret",
   "algorithms": ["sha1", "RS256", "HS256"],
-  "IMAGE_PATH": "../public/images",
+  "IMAGE_PATH": "../public/articleImages",
   "VALIDATOR_WHITELIST": {
     "p": [
       "style"

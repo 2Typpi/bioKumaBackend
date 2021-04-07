@@ -51,16 +51,12 @@ router.post("/delete", function (req, res, next) {
 });
 
 /* POST Delete a product. */
-router.post(
-  "/create/image",
-  accessController.grantAccess("createAny", "article"),
-  imgUpload.single("productImage"),
-  function (req, res, next) {
-    productService
-      .image(req.file.filename)
-      .then(() => res.json({}))
-      .catch((err) => next(err));
-  }
-);
+router.post("/create/image", imgUpload.single("productImage"), function (req, res, next) {
+  accessController.grantAccess("createAny", "article");
+  productService
+    .image(req.file.filename)
+    .then(() => res.json({}))
+    .catch((err) => next(err));
+});
 
 module.exports = router;
