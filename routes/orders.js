@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+const userService = require("../repository/user");
 
 // Check Authority
 const accessController = require("../helper/accessController");
@@ -59,17 +60,19 @@ async function fetchAllOrders(req, res, next) {
   let fullOrder = [];
   await ordersModel
     .findAll({
-      attributes: ["id", "datetime"],
+      attributes: ["id", "userId", "datetime"],
       raw: true,
     })
     .then(async (orderList) => {
       for (const singleOrder of orderList) {
         let singleFullOrder = await getProductsOfOrder(singleOrder);
+        let userOfOrder = await userService.getById(singleOrder.userId);
         let tempJson = {
+          order: singleFullOrder,
           datetime: singleOrder.datetime,
+          username: userOfOrder.username,
         };
-        singleFullOrder.push(tempJson);
-        fullOrder.push(singleFullOrder);
+        fullOrder.push(tempJson);
       }
     })
     .catch((err) => console.log(err));
