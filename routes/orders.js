@@ -28,9 +28,9 @@ async function fetchUsersOrder(req, res, next) {
         let singleFullOrder = await getProductsOfOrder(singleOrder);
         let tempJson = {
           datetime: singleOrder.datetime,
+          order: singleFullOrder,
         };
-        singleFullOrder.push(tempJson);
-        fullOrder.push(singleFullOrder);
+        fullOrder.push(tempJson);
       }
     })
     .catch((err) => console.log(err));
