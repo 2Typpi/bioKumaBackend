@@ -45,7 +45,7 @@ router.post(
 /* POST Delete a product. */
 router.post("/delete", function (req, res, next) {
   productService
-    .delete(req.body)
+    .delete(req.body.id)
     .then(() => res.json({}))
     .catch((err) => next(err));
 });

@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
+var validator = require("validator");
 
 // database
 var products = require("../controllers/index").products;
